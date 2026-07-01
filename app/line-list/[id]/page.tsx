@@ -209,7 +209,7 @@ export default function StyleDetail({ params }: { params: Promise<{ id: string }
   useEffect(() => {
     if (!style) return;
     setValues(getStyleAttributes(id, style.attributes));
-    setReviewStatusState(getReviewStatus(id, style.reviewStatus));
+    setReviewStatusState(getReviewStatus(id, style.reviewStatus) as "pending" | "reviewed" | "needs_input");
     setHydrated(true);
   }, [id, style]);
 
