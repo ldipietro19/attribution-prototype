@@ -77,15 +77,18 @@ function FieldRow({ field, value, aiValue, onChange }: {
   const hasValue = !!value;
   const isEdited = hasValue && value !== aiValue && !!aiValue;
   const conf = field.confidence;
+  // Vendor fields are ALWAYS locked — value comes from vendor, never editable by merchant
+  const vendorLocked = isVendor;
 
-  const rowBg = isVendor && !hasValue ? "var(--badge-amber-bg)" : "var(--bg-panel)";
+  const rowBg = vendorLocked && !hasValue ? "var(--badge-amber-bg)" : "var(--bg-panel)";
 
   const inputStyle: React.CSSProperties = {
     width: "100%", padding: "5px 9px", borderRadius: "6px",
-    border: `1px solid ${isVendor && !hasValue ? "var(--badge-amber-border)" : "var(--border)"}`,
-    background: "var(--bg)", color: "var(--text-primary)", fontSize: "12px", outline: "none",
-    cursor: isVendor && !hasValue ? "not-allowed" : "text",
-    opacity: isVendor && !hasValue ? 0.6 : 1,
+    border: `1px solid ${vendorLocked ? (hasValue ? "var(--border)" : "var(--badge-amber-border)") : "var(--border)"}`,
+    background: vendorLocked ? "var(--bg-hover)" : "var(--bg)",
+    color: "var(--text-primary)", fontSize: "12px", outline: "none",
+    cursor: "not-allowed",
+    opacity: vendorLocked ? (hasValue ? 0.75 : 0.5) : 1,
   };
 
   return (
@@ -104,8 +107,8 @@ function FieldRow({ field, value, aiValue, onChange }: {
         {isEdited && (
           <span style={{ fontSize: "9px", color: "var(--text-muted)", background: "var(--bg-hover)", border: "1px solid var(--border)", borderRadius: "4px", padding: "1px 5px" }}>Edited</span>
         )}
-        {isVendor && !hasValue && (
-          <span style={{ display: "flex", alignItems: "center", gap: "3px", fontSize: "9px", color: "var(--badge-amber-text)", background: "var(--badge-amber-bg)", border: "1px solid var(--badge-amber-border)", borderRadius: "4px", padding: "1px 5px" }}>
+        {isVendor && (
+          <span style={{ display: "flex", alignItems: "center", gap: "3px", fontSize: "9px", color: hasValue ? "var(--text-muted)" : "var(--badge-amber-text)", background: hasValue ? "var(--bg-hover)" : "var(--badge-amber-bg)", border: `1px solid ${hasValue ? "var(--border)" : "var(--badge-amber-border)"}`, borderRadius: "4px", padding: "1px 5px" }}>
             <LockIcon color="currentColor" /> Vendor
           </span>
         )}
@@ -113,13 +116,19 @@ function FieldRow({ field, value, aiValue, onChange }: {
 
       {/* Value */}
       {field.type === "select" && field.options ? (
-        isVendor && !hasValue ? (
-          // Vendor lock — show disabled pill row
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "5px", opacity: 0.4, pointerEvents: "none" }}>
-            {field.options.slice(0, 3).map(opt => (
-              <span key={opt} style={{ padding: "3px 10px", borderRadius: "99px", fontSize: "12px", background: "var(--bg-hover)", border: "1px solid var(--border)", color: "var(--text-muted)" }}>{opt}</span>
-            ))}
-            <span style={{ padding: "3px 10px", borderRadius: "99px", fontSize: "12px", color: "var(--text-muted)" }}>…</span>
+        vendorLocked ? (
+          // Vendor — always locked, show current value highlighted or first few options dimmed
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "5px", pointerEvents: "none" }}>
+            {hasValue ? (
+              <span style={{ padding: "3px 10px", borderRadius: "99px", fontSize: "12px", background: "var(--bg-hover)", border: "1px solid var(--border)", color: "var(--text-secondary)", opacity: 0.75 }}>{value}</span>
+            ) : (
+              <>
+                {field.options.slice(0, 3).map(opt => (
+                  <span key={opt} style={{ padding: "3px 10px", borderRadius: "99px", fontSize: "12px", background: "var(--bg-hover)", border: "1px solid var(--border)", color: "var(--text-muted)", opacity: 0.4 }}>{opt}</span>
+                ))}
+                <span style={{ padding: "3px 10px", borderRadius: "99px", fontSize: "12px", color: "var(--text-muted)", opacity: 0.4 }}>…</span>
+              </>
+            )}
           </div>
         ) : (
           <div style={{ display: "flex", flexWrap: "wrap", gap: "5px" }}>
@@ -145,9 +154,9 @@ function FieldRow({ field, value, aiValue, onChange }: {
         <input
           type="text"
           value={value}
-          onChange={e => onChange(e.target.value)}
-          disabled={isVendor && !hasValue}
-          placeholder={isVendor && !hasValue ? "Awaiting vendor submission…" : ""}
+          onChange={e => { if (!vendorLocked) onChange(e.target.value); }}
+          readOnly={vendorLocked}
+          placeholder={vendorLocked && !hasValue ? "Awaiting vendor submission…" : ""}
           style={inputStyle}
         />
       )}

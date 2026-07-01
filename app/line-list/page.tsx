@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { mockStyles } from "@/lib/mockData";
+import { getReviewStatus } from "@/lib/store";
 
 const CATEGORY_LABEL: Record<string, string> = { dress: "Dress", top: "Top", pant: "Pant" };
 const VENDORS = [...new Set(mockStyles.map((s) => s.vendor))];
 
 type Filter = "all" | "needs_input" | "pending" | "reviewed";
+type ReviewStatus = "pending" | "reviewed" | "needs_input";
 
 const REVIEW_BADGE: Record<string, { label: string; bg: string; text: string; border: string }> = {
   reviewed:    { label: "Reviewed",     bg: "var(--badge-green-bg)",  text: "var(--badge-green-text)",  border: "var(--badge-green-border)" },
@@ -20,9 +22,23 @@ export default function LineList() {
   const [filter, setFilter] = useState<Filter>("all");
   const [vendor, setVendor] = useState("all");
   const [search, setSearch] = useState("");
+  // Overlay localStorage review statuses on top of mock defaults
+  const [reviewStatuses, setReviewStatuses] = useState<Record<string, ReviewStatus>>({});
+
+  useEffect(() => {
+    const overrides: Record<string, ReviewStatus> = {};
+    mockStyles.forEach(s => {
+      overrides[s.id] = getReviewStatus(s.id, s.reviewStatus) as ReviewStatus;
+    });
+    setReviewStatuses(overrides);
+  }, []);
+
+  const getStatus = (id: string, fallback: string): ReviewStatus =>
+    reviewStatuses[id] ?? (fallback as ReviewStatus);
 
   const filtered = mockStyles.filter((s) => {
-    if (filter !== "all" && s.reviewStatus !== filter) return false;
+    const status = getStatus(s.id, s.reviewStatus);
+    if (filter !== "all" && status !== filter) return false;
     if (vendor !== "all" && s.vendor !== vendor) return false;
     if (search) {
       const q = search.toLowerCase();
@@ -33,9 +49,9 @@ export default function LineList() {
 
   const counts = {
     all: mockStyles.length,
-    needs_input: mockStyles.filter((s) => s.reviewStatus === "needs_input").length,
-    pending: mockStyles.filter((s) => s.reviewStatus === "pending").length,
-    reviewed: mockStyles.filter((s) => s.reviewStatus === "reviewed").length,
+    needs_input: mockStyles.filter((s) => getStatus(s.id, s.reviewStatus) === "needs_input").length,
+    pending: mockStyles.filter((s) => getStatus(s.id, s.reviewStatus) === "pending").length,
+    reviewed: mockStyles.filter((s) => getStatus(s.id, s.reviewStatus) === "reviewed").length,
   };
 
   return (
@@ -124,7 +140,7 @@ export default function LineList() {
                 </td>
               </tr>
             ) : filtered.map((style) => {
-              const rb = REVIEW_BADGE[style.reviewStatus];
+              const rb = REVIEW_BADGE[getStatus(style.id, style.reviewStatus)];
               return (
                 <tr
                   key={style.id}
