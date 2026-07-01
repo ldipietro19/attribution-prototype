@@ -3,12 +3,29 @@ export type AttributeField = {
   key: string;
   options?: string[];
   type: "select" | "text";
+  dpp?: boolean;         // EU Digital Product Passport required field
+  aiInferable?: boolean; // AI can attempt to fill; false = must come from vendor
 };
 
 export type Category = {
   name: string;
   fields: AttributeField[];
 };
+
+// EU Digital Product Passport — mandatory for all textiles sold in EU by 2027
+// Appended to every category's attribution run
+export const dppFields: AttributeField[] = [
+  { label: "Fiber Composition", key: "dpp_fiber_composition", type: "text", dpp: true, aiInferable: true },
+  { label: "Country of Origin", key: "dpp_country_of_origin", type: "text", dpp: true, aiInferable: true },
+  { label: "Care / Recycling Instructions", key: "dpp_care_recycling", type: "select", dpp: true, aiInferable: true,
+    options: ["Machine Wash Cold — Recyclable", "Hand Wash Only — Recyclable", "Dry Clean Only — Check local recycling", "Machine Wash Warm — Recyclable", "Hand Wash — Not Recyclable"] },
+  { label: "Carbon Footprint (kg CO₂e)", key: "dpp_carbon_footprint", type: "text", dpp: true, aiInferable: false },
+  { label: "Repairability Index (1–10)", key: "dpp_repairability", type: "text", dpp: true, aiInferable: false },
+  { label: "Hazardous Substances", key: "dpp_hazardous", type: "select", dpp: true, aiInferable: false,
+    options: ["REACH Compliant — None detected", "Under review", "Contains restricted substances"] },
+  { label: "Tier 1 Supplier", key: "dpp_supplier", type: "text", dpp: true, aiInferable: false },
+  { label: "Water Consumption (L/unit)", key: "dpp_water", type: "text", dpp: true, aiInferable: false },
+];
 
 export const taxonomy: Record<string, Category> = {
   dress: {

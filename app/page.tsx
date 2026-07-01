@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
+import Link from "next/link";
 import { taxonomy, AttributeField } from "@/lib/taxonomy";
 
 type AttributeResult = {
@@ -93,8 +94,16 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-2xl mx-auto">
+    <main className="min-h-screen bg-gray-50">
+      {/* Nav */}
+      <nav className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+        <span className="font-semibold text-gray-900 text-sm">Attribution Platform</span>
+        <div className="flex gap-4 text-sm">
+          <Link href="/" className="text-gray-900 font-medium border-b-2 border-black pb-0.5">Single Item</Link>
+          <Link href="/dashboard" className="text-gray-500 hover:text-gray-900">Nightly Run</Link>
+        </div>
+      </nav>
+      <div className="max-w-2xl mx-auto py-12 px-4">
         <h1 className="text-3xl font-bold text-gray-900 mb-1">Product Attribution</h1>
         <p className="text-gray-500 mb-8 text-sm">Upload a product image or describe the item — AI populates the attribute set for review.</p>
 
@@ -198,6 +207,7 @@ export default function Home() {
           </div>
         )}
       </div>
+    </div>
     </main>
   );
 }
