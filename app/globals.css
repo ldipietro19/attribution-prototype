@@ -1,26 +1,56 @@
 @import "tailwindcss";
 
+/* Light mode */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f9fafb;
+  --bg-panel: #ffffff;
+  --bg-hover: #f3f4f6;
+  --bg-sidebar: #ffffff;
+  --border: #e5e7eb;
+  --border-subtle: #f3f4f6;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --accent: #000000;
+  --accent-text: #ffffff;
+  --badge-green-bg: #f0fdf4;
+  --badge-green-text: #15803d;
+  --badge-green-border: #bbf7d0;
+  --badge-amber-bg: #fffbeb;
+  --badge-amber-text: #b45309;
+  --badge-amber-border: #fde68a;
+  --row-flag: #fffbeb33;
+  --sidebar-width: 220px;
+  --sidebar-collapsed: 56px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Dark mode — applied when <html> has class "dark" */
+html.dark {
+  --bg: #0f1117;
+  --bg-panel: #1a1f2e;
+  --bg-hover: #1f2437;
+  --bg-sidebar: #131722;
+  --border: #2a3142;
+  --border-subtle: #1f2437;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent: #f1f5f9;
+  --accent-text: #0f1117;
+  --badge-green-bg: #052e16;
+  --badge-green-text: #4ade80;
+  --badge-green-border: #166534;
+  --badge-amber-bg: #1c1400;
+  --badge-amber-text: #fbbf24;
+  --badge-amber-border: #92400e;
+  --row-flag: #92400e15;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: background 0.2s, color 0.2s;
 }
+
+* { box-sizing: border-box; }
