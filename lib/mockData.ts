@@ -14,6 +14,7 @@ export type MockStyle = {
   dppGaps: DppGap[];
   attributes: Record<string, string>;
   reviewStatus: "pending" | "reviewed" | "needs_input";
+  plmData: Record<string, string>; // read-only fields from PLM
 };
 
 export type MockRun = {
@@ -48,6 +49,7 @@ export const mockStyles: MockStyle[] = [
     dppComplete: true,
     dppGaps: [],
     reviewStatus: "reviewed",
+    plmData: { plm_season: "SS25", plm_department: "Women's RTW", plm_colorway_code: "DR001-CRL", plm_status: "In Development", plm_created: "2025-03-10" },
     attributes: {
       silhouette: "Wrap", neckline: "V-Neck", sleeve_type: "Short Sleeve", length: "Midi",
       fabric: "Silk", pattern: "Floral", fit: "Regular", occasion: "Evening",
@@ -70,6 +72,7 @@ export const mockStyles: MockStyle[] = [
     dppComplete: true,
     dppGaps: [],
     reviewStatus: "pending",
+    plmData: { plm_season: "SS25", plm_department: "Women's RTW", plm_colorway_code: "DR002-IVY", plm_status: "In Development", plm_created: "2025-03-11" },
     attributes: {
       silhouette: "Shift", neckline: "Square", sleeve_type: "Sleeveless", length: "Mini",
       fabric: "Linen", pattern: "Solid", fit: "Regular", occasion: "Casual",
@@ -95,6 +98,7 @@ export const mockStyles: MockStyle[] = [
       { field: "Tier 1 Supplier", reason: "New factory — onboarding not complete" },
     ],
     reviewStatus: "needs_input",
+    plmData: { plm_season: "SS25", plm_department: "Women's RTW", plm_colorway_code: "DR003-ONX", plm_status: "Pending Approval", plm_created: "2025-03-12" },
     attributes: {
       silhouette: "Bodycon", neckline: "Scoop", sleeve_type: "Sleeveless", length: "Midi",
       fabric: "Jersey", pattern: "Solid", fit: "Slim", occasion: "Cocktail",
@@ -117,6 +121,7 @@ export const mockStyles: MockStyle[] = [
     dppComplete: true,
     dppGaps: [],
     reviewStatus: "reviewed",
+    plmData: { plm_season: "SS25", plm_department: "Women's RTW", plm_colorway_code: "TP001-STR", plm_status: "In Development", plm_created: "2025-03-14" },
     attributes: {
       style: "Button-Down", neckline: "Crew", sleeve_type: "Long Sleeve",
       fabric: "Cotton", pattern: "Stripe", fit: "Regular", occasion: "Work",
@@ -137,6 +142,7 @@ export const mockStyles: MockStyle[] = [
     dppComplete: true,
     dppGaps: [],
     reviewStatus: "pending",
+    plmData: { plm_season: "SS25", plm_department: "Women's RTW", plm_colorway_code: "TP002-SAT", plm_status: "In Development", plm_created: "2025-03-15" },
     attributes: {
       style: "Tank", neckline: "Halter", sleeve_type: "Sleeveless",
       fabric: "Satin", pattern: "Solid", fit: "Slim", occasion: "Evening",
@@ -161,6 +167,7 @@ export const mockStyles: MockStyle[] = [
       { field: "Hazardous Substances", reason: "New dye batch — REACH testing in progress" },
     ],
     reviewStatus: "needs_input",
+    plmData: { plm_season: "SS25", plm_department: "Women's RTW", plm_colorway_code: "TP003-FLR", plm_status: "Pending Approval", plm_created: "2025-03-16" },
     attributes: {
       style: "Crop Top", neckline: "Off-Shoulder", sleeve_type: "Puff Sleeve",
       fabric: "Cotton", pattern: "Floral", fit: "Cropped", occasion: "Casual",
@@ -182,6 +189,7 @@ export const mockStyles: MockStyle[] = [
     dppComplete: true,
     dppGaps: [],
     reviewStatus: "reviewed",
+    plmData: { plm_season: "SS25", plm_department: "Women's RTW", plm_colorway_code: "PT001-LNN", plm_status: "In Development", plm_created: "2025-03-18" },
     attributes: {
       style: "Wide Leg", rise: "High Rise", leg_opening: "Wide",
       fabric: "Linen", pattern: "Solid", fit: "Relaxed", occasion: "Work",
@@ -202,6 +210,7 @@ export const mockStyles: MockStyle[] = [
     dppComplete: true,
     dppGaps: [],
     reviewStatus: "pending",
+    plmData: { plm_season: "SS25", plm_department: "Women's RTW", plm_colorway_code: "PT002-PLD", plm_status: "In Development", plm_created: "2025-03-19" },
     attributes: {
       style: "Trouser", rise: "Mid Rise", leg_opening: "Straight",
       fabric: "Wool", pattern: "Plaid", fit: "Regular", occasion: "Work",
@@ -222,6 +231,7 @@ export const mockStyles: MockStyle[] = [
     dppComplete: true,
     dppGaps: [],
     reviewStatus: "reviewed",
+    plmData: { plm_season: "SS25", plm_department: "Women's RTW", plm_colorway_code: "PT003-JRY", plm_status: "In Development", plm_created: "2025-03-20" },
     attributes: {
       style: "Jogger", rise: "Mid Rise", leg_opening: "Tapered",
       fabric: "Jersey", pattern: "Solid", fit: "Regular", occasion: "Casual",
@@ -246,6 +256,7 @@ export const mockStyles: MockStyle[] = [
       { field: "Repairability Index", reason: "Assessment not submitted" },
     ],
     reviewStatus: "needs_input",
+    plmData: { plm_season: "SS25", plm_department: "Women's RTW", plm_colorway_code: "DR004-SLP", plm_status: "Pending Approval", plm_created: "2025-03-21" },
     attributes: {
       silhouette: "Slip", neckline: "Cowl", sleeve_type: "Spaghetti Strap", length: "Maxi",
       fabric: "Satin", pattern: "Solid", fit: "Relaxed", occasion: "Evening",
@@ -266,6 +277,7 @@ export const mockStyles: MockStyle[] = [
     dppComplete: true,
     dppGaps: [],
     reviewStatus: "pending",
+    plmData: { plm_season: "SS25", plm_department: "Women's RTW", plm_colorway_code: "TP004-TNC", plm_status: "In Development", plm_created: "2025-03-22" },
     attributes: {
       style: "Tunic", neckline: "V-Neck", sleeve_type: "3/4 Sleeve",
       fabric: "Linen", pattern: "Geometric", fit: "Relaxed", occasion: "Casual",
@@ -286,6 +298,7 @@ export const mockStyles: MockStyle[] = [
     dppComplete: true,
     dppGaps: [],
     reviewStatus: "reviewed",
+    plmData: { plm_season: "SS25", plm_department: "Women's RTW", plm_colorway_code: "PT004-DNM", plm_status: "In Development", plm_created: "2025-03-24" },
     attributes: {
       style: "Flare", rise: "High Rise", leg_opening: "Flared",
       fabric: "Denim", pattern: "Solid", fit: "Slim", occasion: "Casual",
