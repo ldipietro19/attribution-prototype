@@ -67,6 +67,7 @@ export const mockStyles: MockStyle[] = [
     attributed: true,
     dppComplete: true,
     dppGaps: [],
+    reviewStatus: "pending",
     attributes: {
       silhouette: "Shift", neckline: "Square", sleeve_type: "Sleeveless", length: "Mini",
       fabric: "Linen", pattern: "Solid", fit: "Regular", occasion: "Casual",
